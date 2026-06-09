@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<QuanLyPhongKhachSan.Models.QuyetDinh>
+
+@{
+    ViewData["Title"] = "Quyết Định";
+}
+
+<h2>Danh sách quyết định</h2>
+
+<table class="table table-bordered table-striped">
+
+    <thead class="table-dark">
+        <tr>
+            <th>Mã</th>
+            <th>Loại quyết định</th>
+            <th>Nội dung</th>
+            <th>Ngày tạo</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.MaQuyetDinh</td>
+
+                <td>@item.LoaiQuyetDinh</td>
+
+                <td>@item.NoiDung</td>
+
+                <td>@item.NgayTao</td>
+
+                <td>
+
+                    @if (item.TrangThai == "Đã duyệt")
+                    {
+                        <span class="badge bg-success">
+                            @item.TrangThai
+                        </span>
+                    }
+                    else if (item.TrangThai == "Chờ duyệt")
+                    {
+                        <span class="badge bg-warning text-dark">
+                            @item.TrangThai
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">
+                            @item.TrangThai
+                        </span>
+                    }
+
+                </td>
+
+                <td>
+
+                    @if (Context.Session.GetString("Role") == "Admin")
+                    {
+                        <a asp-action="Duyet"
+                               asp-route-id="@item.MaQuyetDinh"
+                               class="btn btn-success btn-sm">
+                            Duyệt
+                        </a>
+
+                        <a asp-action="TuChoi"
+                               asp-route-id="@item.MaQuyetDinh"
+                               class="btn btn-danger btn-sm">
+                            Từ chối
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">
+                            Không có quyền
+                        </span>
+                    }
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

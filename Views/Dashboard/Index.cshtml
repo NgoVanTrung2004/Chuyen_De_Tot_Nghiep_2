@@ -1,0 +1,413 @@
+﻿@model QuanLyPhongKhachSan.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard DSS";
+}
+
+<div class="dashboard-title">
+
+    <h1>
+        DSS HOTEL MANAGEMENT
+    </h1>
+
+    <p>
+        AI Forecasting & Decision Support System
+    </p>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-3">
+
+        <div class="card text-white bg-primary shadow-lg">
+
+            <div class="card-body">
+
+                <h6>
+                    🏨 TỔNG SỐ PHÒNG
+                </h6>
+
+                <h1>
+                    @Model.TongPhong
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card text-white bg-success shadow-lg">
+
+            <div class="card-body">
+
+                <h6>
+                    ✅ PHÒNG ĐÃ ĐẶT
+                </h6>
+
+                <h1>
+                    @Model.PhongDaDat
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card text-white bg-warning shadow-lg">
+
+            <div class="card-body">
+
+                <h6>
+                    📈 CÔNG SUẤT PHÒNG
+                </h6>
+
+                <h1>
+                    @Model.TyLeCongSuat.ToString("0.##")%
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card text-white bg-danger shadow-lg">
+
+            <div class="card-body">
+
+                <h6>
+                    🤖 ĐỘ TIN CẬY AI
+                </h6>
+
+                <h1>
+                    @Model.DoTinCay.ToString("0.##")%
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<hr />
+<h3>Thống kê tổng quan</h3>
+
+<div class="row">
+
+    <div class="col-md">
+        <div class="card bg-primary text-white shadow-lg border-0 h-100">
+            <div class="card-body">
+                <h5>Tổng khách hàng</h5>
+                <h2>@Model.TongKhachHang</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md">
+        <div class="card bg-success text-white shadow-lg border-0 h-100">
+            <div class="card-body">
+                <h5>Tổng lượt đặt phòng</h5>
+                <h2>@Model.TongDatPhong</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md">
+        <div class="card bg-warning shadow-lg border-0 h-100">
+            <div class="card-body">
+                <h5>Công suất TB</h5>
+                <h2>@Model.CongSuatTrungBinh.ToString("0.##")%</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md">
+        <div class="card bg-info text-white shadow-lg border-0 h-100">
+            <div class="card-body">
+                <h5>Công suất cao nhất</h5>
+                <h2>@Model.CongSuatCaoNhat.ToString("0.##")%</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md">
+        <div class="card bg-secondary text-white shadow-lg border-0 h-100">
+            <div class="card-body">
+
+                <h5>Công suất thấp nhất</h5>
+
+                <h2>
+                    @Model.CongSuatThapNhat.ToString("0.##")%
+                </h2>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<h4>Ngày cập nhật</h4>
+
+<p>@Model.Ngay</p>
+
+<hr />
+
+<div class="card shadow-sm">
+
+    <div class="card-header">
+
+        Công suất phòng theo thời gian
+
+    </div>
+
+    <div class="card-body">
+
+        <canvas id="occupancyChart"></canvas>
+
+    </div>
+
+</div>
+
+<hr />
+
+<div class="card shadow-sm mt-4">
+
+    <div class="card-header">
+
+        Dự báo công suất phòng 30 ngày tới
+
+    </div>
+
+    <div class="card-body">
+
+        <canvas id="forecastChart"></canvas>
+
+    </div>
+
+</div>
+
+<hr />
+
+<h2 class="mt-5">
+
+    Thông tin hỗ trợ ra quyết định
+
+</h2>
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <div class="card bg-info text-white shadow">
+
+            <div class="card-body">
+
+                <h6>MÔ HÌNH AI</h6>
+
+                <h2>
+                    @Model.MoHinhTotNhat
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card bg-success text-white shadow">
+
+            <div class="card-body">
+
+                <h6>ĐỘ TIN CẬY</h6>
+
+                <h2>
+                    @Model.DoTinCay.ToString("0.##")%
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card bg-warning shadow">
+
+            <div class="card-body">
+
+                <h6>
+                    ĐÁNH GIÁ MÔ HÌNH
+                </h6>
+
+                <p>
+                    RMSE:
+                    @Model.RMSE.ToString("0.00")
+                </p>
+
+                <p>
+                    MAE:
+                    @Model.MAE.ToString("0.00")
+                </p>
+
+                <p>
+                    MAPE:
+                    @Model.MAPE.ToString("0.00")%
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<br />
+
+<div class="alert alert-success shadow">
+
+    <h5>
+        Khuyến nghị hệ thống
+    </h5>
+
+    <p>
+        @Model.KhuyenNghiMoiNhat
+    </p>
+
+</div>
+
+<br />
+
+<div class="alert alert-primary shadow">
+
+    <h5>
+        Quyết định đề xuất
+    </h5>
+
+    <p>
+        @Model.QuyetDinhMoiNhat
+    </p>
+
+</div>
+
+<br />
+
+<div class="alert alert-danger shadow">
+
+    <h5>
+        Cảnh báo
+    </h5>
+
+    <p>
+        @Model.CanhBaoMoiNhat
+    </p>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@section Scripts
+{
+<script>
+
+const labels =
+@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Labels));
+
+const values =
+@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Values));
+
+const forecastLabels =
+@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ForecastLabels));
+
+const forecastValues =
+@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.ForecastValues));
+
+const ctx =
+document.getElementById('occupancyChart');
+
+new Chart(ctx,
+{
+    type: 'line',
+
+    data:
+    {
+        labels: labels,
+
+        datasets:
+        [
+        {
+        label: 'Công suất phòng (%)',
+
+        data: values,
+
+        borderColor: 'blue',
+
+        backgroundColor: 'rgba(0,123,255,0.2)',
+
+        fill: true,
+
+        tension: 0.4,
+
+        borderWidth: 3
+        }
+        ]
+    },
+
+    options:
+    {
+        responsive: true
+    }
+});
+
+const forecastCtx =
+document.getElementById('forecastChart');
+
+new Chart(forecastCtx,
+{
+    type: 'line',
+
+    data:
+    {
+        labels: forecastLabels,
+
+        datasets:
+        [
+        {
+        label: 'Dự báo 30 ngày tới',
+
+        data: forecastValues,
+
+        borderColor: 'red',
+
+        backgroundColor: 'rgba(255,0,0,0.15)',
+
+        fill: true,
+
+        tension: 0.4,
+
+        borderWidth: 3
+        }
+        ]
+    },
+
+    options:
+    {
+        responsive: true
+    }
+});
+
+</script>
+}
+

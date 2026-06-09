@@ -1,0 +1,171 @@
+﻿@model QuanLyPhongKhachSan.Models.LichSuDuBaoViewModel
+
+<h2>Lịch sử dự báo</h2>
+
+
+<div class="row mb-3">
+
+    <div class="col-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5>Tổng lần dự báo</h5>
+                <h2>@Model.TongLanDuBao</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5>Độ tin cậy cao nhất</h5>
+                <h2>@Model.DoTinCayCaoNhat.ToString("0.##")%</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card bg-warning text-dark">
+            <div class="card-body">
+                <h5>Công suất TB</h5>
+                <h2>@Model.CongSuatTrungBinh.ToString("0.##")%</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Mã</th>
+            <th>Ngày dự báo</th>
+            <th>Mô hình</th>
+            <th>Công suất TB</th>
+            <th>Độ tin cậy</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model.DanhSachDuBao)
+        {
+            <tr>
+                <td>@item.MaDuBao</td>
+                <td>@item.NgayDuBao</td>
+                <td>
+
+                    @if (item.MoHinhSuDung == "ARIMA")
+                    {
+                        <span class="badge bg-primary">
+                            ARIMA
+                        </span>
+                    }
+                    else if (item.MoHinhSuDung == "Prophet")
+                    {
+                        <span class="badge bg-info">
+                            Prophet
+                        </span>
+                    }
+                    else
+                    {
+                        @item.MoHinhSuDung
+                    }
+
+                </td>
+
+                <td>
+
+                    @if ((item.CongSuatTrungBinh ?? 0) >= 80)
+                    {
+                        <span class="text-danger fw-bold">
+                            @string.Format("{0:0.##}", item.CongSuatTrungBinh)%
+                        </span>
+                    }
+                    else if ((item.CongSuatTrungBinh ?? 0) >= 50)
+                    {
+                        <span class="text-warning fw-bold">
+                            @string.Format("{0:0.##}", item.CongSuatTrungBinh)%
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="text-success fw-bold">
+                            @string.Format("{0:0.##}", item.CongSuatTrungBinh)%
+                        </span>
+                    }
+
+                </td>
+
+                <td>
+
+                    @if ((item.DoTinCay ?? 0) >= 80)
+                    {
+                        <span class="badge bg-success">
+                            @string.Format("{0:0.##}", item.DoTinCay)%
+                        </span>
+                    }
+                    else if ((item.DoTinCay ?? 0) >= 60)
+                    {
+                        <span class="badge bg-warning text-dark">
+                            @string.Format("{0:0.##}", item.DoTinCay)%
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">
+                            @string.Format("{0:0.##}", item.DoTinCay)%
+                        </span>
+                    }
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+<hr />
+
+<h3>Biểu đồ công suất dự báo</h3>
+
+<canvas id="forecastChart"></canvas>
+
+<br />
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+    var labels =
+    @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Labels));
+
+    var values =
+    @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Values));
+
+    var ctx =
+    document.getElementById('forecastChart');
+
+    new Chart(ctx, {
+
+        type: 'line',
+
+        data: {
+
+            labels: labels,
+
+            datasets: [{
+
+                   label: 'Công suất dự báo (%)',
+
+                    data: values,
+
+                    fill: false,
+
+                    tension: 0.3
+                }]
+            }
+
+    });
+
+</script>

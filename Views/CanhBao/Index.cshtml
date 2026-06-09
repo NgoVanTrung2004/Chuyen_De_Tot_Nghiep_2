@@ -1,0 +1,28 @@
+﻿@model IEnumerable<QuanLyPhongKhachSan.Models.CanhBao>
+
+<h2>Cảnh báo DSS</h2>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Ngày</th>
+            <th>Mức độ</th>
+            <th>Nội dung</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.NgayCanhBao</td>
+                <td>@item.MucDo</td>
+                <td>@item.NoiDung</td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>

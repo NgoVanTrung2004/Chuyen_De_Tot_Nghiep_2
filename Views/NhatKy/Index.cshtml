@@ -1,0 +1,30 @@
+﻿@model IEnumerable<QuanLyPhongKhachSan.Models.NhatKyHeThong>
+
+<h2>Nhật ký hệ thống</h2>
+
+<table class="table table-bordered table-striped">
+
+    <thead class="table-dark">
+        <tr>
+            <th>Mã</th>
+            <th>Mã người dùng</th>
+            <th>Hành động</th>
+            <th>Thời gian</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaNhatKy</td>
+                <td>@item.MaNguoiDung</td>
+                <td>@item.HanhDong</td>
+                <td>@item.ThoiGian</td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>

@@ -1,0 +1,62 @@
+﻿@model QuanLyPhongKhachSan.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-4">
+
+        <div class="card shadow-lg">
+
+            <div class="card-header text-center bg-primary text-white">
+
+                <h3>Đăng nhập hệ thống DSS</h3>
+
+            </div>
+
+            <div class="card-body">
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.Error
+                    </div>
+                }
+
+                <form method="post">
+
+                    <div class="mb-3">
+
+                        <label>Tên đăng nhập</label>
+
+                        <input asp-for="TenDangNhap"
+                               class="form-control" />
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label>Mật khẩu</label>
+
+                        <input asp-for="MatKhau"
+                               type="password"
+                               class="form-control" />
+
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-primary w-100">
+                        Đăng nhập
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

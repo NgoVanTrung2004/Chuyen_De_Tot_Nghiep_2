@@ -1,0 +1,95 @@
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - QuanLyPhongKhachSan</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/QuanLyPhongKhachSan.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div class="sidebar">
+
+            <div class="sidebar-title">
+                DSS HOTEL
+            </div>
+
+            <a asp-controller="Dashboard"
+                   asp-action="Index">
+                🏠 Dashboard
+            </a>
+
+            <a asp-controller="CongSuatPhong"
+                   asp-action="Index">
+                📊 Công suất
+            </a>
+
+            <a asp-controller="DuBao"
+                   asp-action="Index">
+                📈 Dự báo
+            </a>
+
+            <a asp-controller="KhuyenNghi"
+                   asp-action="Index">
+                💡 Khuyến nghị
+            </a>
+
+            <a asp-controller="CanhBao"
+                   asp-action="Index">
+                ⚠️ Cảnh báo
+            </a>
+
+            <a asp-controller="DanhGiaMoHinh"
+                   asp-action="Index">
+                🧠 Đánh giá mô hình
+            </a>
+
+            <a asp-controller="NhatKy"
+                   asp-action="Index">
+                📝 Nhật ký hệ thống
+            </a>
+
+            @if (Context.Session.GetString("Role") == "Admin")
+            {
+                <a asp-controller="QuyetDinh"
+                       asp-action="Index">
+                    ✅ Quyết định
+                </a>
+            }
+
+            <a asp-controller="Account"
+                   asp-action="Logout">
+                🚪 Đăng xuất
+            </a>
+
+            <hr style="background:white;" />
+
+            <div style="color:white;padding:10px;">
+                <b>@Context.Session.GetString("UserName")</b>
+                <br />
+                @Context.Session.GetString("Role")
+            </div>
+
+        </div>
+    </header>
+    <div class="content">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - QuanLyPhongKhachSan - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
